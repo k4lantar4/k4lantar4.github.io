@@ -1,223 +1,272 @@
 <!doctype html>
-<html lang="en">
+<html lang="fa" dir="rtl">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mrj | sys_admin</title>
+    <title>Mrj | Terminal Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Vazirmatn:wght@400;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Vazirmatn:wght@300;500;800&display=swap");
+
+      :root {
+        --bg-black: #000000;
+        --zsh-path: #29b6f6;
+        --zsh-user: #66bb6a;
+        --zsh-arrow: #ff5252;
+        --text-main: #e0e0e0;
+        --text-dim: #9e9e9e;
+        --accent-gold: #ffca28;
+      }
 
       body {
+        background-color: var(--bg-black);
+        color: var(--text-main);
         font-family: "Fira Code", monospace;
-        background-color: #171717; /* Clean, neutral dark mode */
-        color: #e5e5e5; /* Standard light text */
-        line-height: 1.8;
-        padding: 1rem;
+        padding: 20px;
+        line-height: 1.6;
       }
 
       .font-fa {
         font-family: "Vazirmatn", sans-serif;
-        letter-spacing: normal;
+        line-height: 1.8;
       }
 
+      h1.font-fa,
+      h2.font-fa,
+      h3.font-fa {
+        font-weight: 900 !important; /* وزن بسیار سنگین برای تیترها */
+        color: #ffffff;
+        margin-bottom: 15px;
+        border-right: 4px solid var(--accent-gold);
+        padding-right: 15px;
+      }
+
+      .command-output p.font-fa {
+        font-weight: 400; /* متن بدنه معمولی برای خوانایی */
+        color: #d1d1d1;
+      }
+
+      /* ZSH Prompt Style */
       .prompt::before {
-        content: "Mrj@arch-server:~$ ";
-        color: #00bcd4; /* Vibrant Rust/Orange */
-        font-weight: 600;
+        content: "➜  ";
+        color: var(--zsh-arrow);
+        font-weight: bold;
+        font-family: "Fira Code";
       }
 
-      .text-gold {
-        color: #fbbf24;
-      } /* Vibrant Gold */
-      .text-green {
-        color: #4ade80;
-      } /* Vibrant Green */
-      .text-rust {
-        color: #f97316;
-      } /* Vibrant Rust/Orange */
+      .path {
+        color: var(--zsh-path);
+        font-weight: bold;
+        margin-left: 8px;
+      }
 
-      .tag {
+      .user {
+        color: var(--zsh-user);
+        font-weight: bold;
+      }
+
+      /* Terminal Window Mockup */
+      .terminal-window {
+        border: 1px solid #333;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      .terminal-header {
+        background: #1a1a1a;
+        padding: 10px;
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid #333;
+      }
+
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .dot-red {
+        background: #ff5f56;
+      }
+      .dot-yellow {
+        background: #ffbd2e;
+      }
+      .dot-green {
+        background: #27c93f;
+      }
+
+      .cursor {
         display: inline-block;
-        color: #4ade80;
-        margin-right: 0.5rem;
-        margin-bottom: 0.5rem;
-        font-size: 0.85rem;
-      }
-      .tag::before {
-        content: "[";
-        color: #737373;
-      }
-      .tag::after {
-        content: "]";
-        color: #737373;
+        width: 8px;
+        height: 18px;
+        background: var(--accent-gold);
+        animation: blink 1s infinite;
+        vertical-align: middle;
+        margin-right: 4px;
       }
 
-      .ai-input {
-        background: transparent;
-        border: none;
-        color: #fbbf24;
-        font-family: inherit;
-        font-size: inherit;
-        outline: none;
-        width: 100%;
-      }
-      .ai-input::placeholder {
-        color: #737373;
-      }
-
-      @media (min-width: 768px) {
-        body {
-          padding: 2rem;
+      @keyframes blink {
+        50% {
+          opacity: 0;
         }
+      }
+
+      .command-output {
+        padding-right: 2rem;
+        border-right: 2px solid #222;
+        margin-top: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .tech-tag {
+        color: #00ffc3;
+        border: 1px solid #00ffc333;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+      }
+
+      input:focus {
+        outline: none;
       }
     </style>
   </head>
-  <body
-    class="w-full max-w-[95%] xl:max-w-[1400px] mx-auto mt-4 md:mt-10 selection:bg-[#fbbf24] selection:text-[#171717]"
-  >
-    <div class="mb-10 text-gray-400 text-sm">
-      Last login: Tue May 05 08:30:11 2026 from 10.0.0.50<br />
-      Arch Linux 6.8.9-arch1-1 (tty1)
-    </div>
 
-    <!-- BIO SECTION -->
-    <div class="mb-12">
-      <p class="prompt mb-3">
-        <span class="text-gold font-bold border-r-2 border-gold pr-1"
-          >cat whoami.txt</span
+  <body class="max-w-5xl mx-auto">
+    <div class="terminal-window mb-10">
+      <div class="terminal-header">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-yellow"></div>
+        <div class="dot dot-green"></div>
+        <div class="text-xs text-dim font-sans mx-auto">mrj — zsh — 140x40</div>
+      </div>
+
+      <div class="p-4 md:p-8">
+        <!-- WELCOME -->
+        <div class="mb-8">
+          <p class="prompt" dir="ltr">
+            <span class="path">~</span> <span class="text-white">whoami</span>
+          </p>
+          <div class="command-output">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-2">
+              MohammadReza
+              <span class="text-dim text-2xl font-normal">/ Mrj</span>
+            </h1>
+            <p
+              class="text-accent-gold font-bold tracking-widest text-sm uppercase"
+            >
+              Systems & Infrastructure Architect
+            </p>
+
+            <div
+              class="font-fa text-lg text-gray-300 mt-4 text-justify"
+              dir="rtl"
+            >
+              فراتر از کدنویسی، تمرکز من روی طراحی سیستم‌های خودکار و پایدار
+              است. من به اصل
+              <span class="text-green-400 font-bold">KISS</span>
+              (سادگی در عین کارایی) معتقدم. زیرساخت‌هایی که من می‌سازم، برای
+              پایداری ۱۰۰ درصدی و مقیاس‌پذیری بالا مهندسی شده‌اند.
+            </div>
+          </div>
+        </div>
+
+        <!-- TECH STACK -->
+        <div class="mb-8">
+          <p class="prompt" dir="ltr">
+            <span class="path">~/stack</span>
+            <span class="text-white">ls -la</span>
+          </p>
+          <div class="command-output flex flex-wrap gap-3">
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">MikroTik</span>
+            <span class="tech-tag">Nginx</span>
+            <span class="tech-tag">Grafana</span>
+            <span class="tech-tag">n8n</span>
+            <span class="tech-tag">Go/Golang</span>
+            <span class="tech-tag">Linux (Arch)</span>
+            <span class="tech-tag">Python</span>
+          </div>
+        </div>
+
+        <!-- WORK LOG -->
+        <div class="mb-8">
+          <p class="prompt" dir="ltr">
+            <span class="path">~/projects</span>
+            <span class="text-white">tail -n 3 production.log</span>
+          </p>
+          <div class="command-output space-y-6">
+            <div class="border-r-2 border-red-500 pr-4">
+              <p class="text-xs text-dim" dir="ltr">TIMESTAMP: 2024-05-01</p>
+              <h3 class="text-white font-bold mb-1">
+                سیستم Zero Downtime شبکه
+              </h3>
+              <p class="font-fa text-gray-400 text-base" dir="rtl">
+                پیاده‌سازی Failover خودکار روی تجهیزات میکروتیک جهت تضمین
+                پایداری اینترنت در محیط‌های صنعتی.
+              </p>
+            </div>
+
+            <div class="border-r-2 border-red-500 pr-4">
+              <p class="text-xs text-dim" dir="ltr">TIMESTAMP: 2024-03-15</p>
+              <h3 class="text-white font-bold mb-1">
+                مانیتورینگ هوشمند (Self-Healing)
+              </h3>
+              <p class="font-fa text-gray-400 text-base" dir="rtl">
+                توسعه ایجنت‌های مانیتورینگ با Go که پیش از وقوع بحران، سرویس‌ها
+                را بازیابی می‌کنند.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI TERMINAL MODULE -->
+        <div
+          class="bg-[#0a0a0a] border border-[#222] rounded p-4 mt-12 shadow-2xl"
         >
-      </p>
-      <div class="pl-4 md:pl-6 border-l-2 border-[#404040]">
-        <h1 class="text-2xl md:text-3xl font-bold text-gold mb-4">
-          SYSTEMS & INFRASTRUCTURE ARCHITECT
-        </h1>
-
-        <p class="mb-4 text-sm md:text-base leading-relaxed">
-          Beyond the terminal, I'm someone who values deep focus and continuous
-          learning. I prefer building robust, automated systems over repeating
-          manual tasks. My workflow is rooted in the
-          <span class="text-green font-bold">KISS principle</span>—keeping
-          things simple, efficient, and highly maintainable. I thrive in
-          environments where I can take ownership of the infrastructure, solve
-          complex bottlenecks, and ensure absolute stability.
-        </p>
-
-        <p class="font-fa text-base leading-loose text-gray-300" dir="rtl">
-          <span class="text-rust font-bold">خلاصه تخصصی:</span> متخصص زیرساخت،
-          سرورهای لینوکسی و تجهیزات میکروتیک. تمرکز اصلی من روی پایداری شبکه
-          (Zero Downtime) و اتوماسیون فرایندها برای کاهش خطاهای انسانی است.
-        </p>
-      </div>
-    </div>
-
-    <!-- TECH STACK (SCANNABLE) -->
-    <div class="mb-12">
-      <p class="prompt mb-3 text-gold">ls -1 /opt/toolchain/</p>
-      <div class="pl-4 md:pl-6 border-l-2 border-[#404040]">
-        <p class="text-gray-400 text-sm mb-3"># Ready to deploy and manage:</p>
-        <div class="flex flex-wrap">
-          <span class="tag">Docker</span>
-          <span class="tag">PostgreSQL</span>
-          <span class="tag">SQLite</span>
-          <span class="tag">MikroTik</span>
-          <span class="tag">Nginx</span>
-          <span class="tag">Grafana</span>
-          <span class="tag">n8n</span>
-          <span class="tag">REST APIs</span>
-          <span class="tag">Git</span>
-          <span class="tag">GitHub</span>
-          <span class="tag">Arch Linux</span>
-          <span class="tag">Go (Golang)</span>
-          <span class="tag">Python</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROJECTS -->
-    <div class="mb-16">
-      <p class="prompt mb-3 text-gold">cat /var/log/projects.log</p>
-      <div class="pl-4 md:pl-6 space-y-6 border-l-2 border-[#404040]">
-        <div>
-          <p class="text-rust font-bold">[OK] Network Redundancy System</p>
-          <p class="font-fa text-sm md:text-base mt-1 text-gray-400" dir="rtl">
-            راه‌اندازی و کانفیگ حرفه‌ای میکروتیک برای ترکیب چند خط اینترنت (Load
-            Balancing/Failover) جهت جلوگیری از قطعی کامل شبکه در محیط‌های صنعتی.
-          </p>
-        </div>
-        <div>
-          <p class="text-rust font-bold">[OK] Autonomous Monitoring Bots</p>
-          <p class="font-fa text-sm md:text-base mt-1 text-gray-400" dir="rtl">
-            توسعه ابزارهای مانیتورینگ با Go و ترکیب آن با n8n برای ارسال
-            هشدارهای آنی پیش از وقوع خرابی در سرورها.
-          </p>
-        </div>
-        <div>
-          <p class="text-rust font-bold">[OK] Containerized Infrastructure</p>
-          <p class="font-fa text-sm md:text-base mt-1 text-gray-400" dir="rtl">
-            معماری و انتقال دیتابیس‌ها (مانند Postgres) به محیط Docker جهت
-            افزایش امنیت، استقرار سریع و مدیریت متمرکز بک‌آپ‌ها.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- AI MODULE -->
-    <div
-      class="mb-12 border border-[#404040] p-4 md:p-6 bg-[#1a1a1a] rounded-sm shadow-xl"
-    >
-      <div
-        class="flex items-center justify-between mb-4 border-b border-[#404040] pb-2"
-      >
-        <p class="text-gold font-bold">
-          ./mrj_twin.sh <span class="text-green ml-1 animate-pulse">●</span>
-        </p>
-        <p class="text-xs text-gray-400">Powered by Gemini LLM</p>
-      </div>
-
-      <div
-        class="pl-2 md:pl-4 mb-6 text-gray-400 text-sm md:text-base font-fa space-y-1"
-        dir="rtl"
-      >
-        <p>
-          > [SYSTEM]
-          <span class="text-green"
-            >ماژول همزاد دیجیتال (AI) با موفقیت بارگذاری شد.</span
+          <div
+            class="flex items-center gap-2 mb-4 border-b border-[#222] pb-2"
+            dir="rtl"
           >
-        </p>
-        <p>
-          > [SYSTEM] می‌توانید در مورد تخصص‌ها، نحوه کار با ابزارها یا حل مشکلات
-          از من بپرسید...
-        </p>
-      </div>
+            <span class="text-green-500 text-xs font-bold">● AI ACTIVE</span>
+            <span class="text-dim text-xs font-fa"
+              >دستیار هوشمند Mrj (نسخه ۲.۵)</span
+            >
+          </div>
 
-      <div
-        id="chat-log"
-        class="mb-4 space-y-4 pl-2 md:pl-4 font-fa text-sm md:text-base text-[#e5e5e5]"
-        dir="rtl"
-      ></div>
+          <div id="chat-log" class="font-fa text-base space-y-4 mb-4" dir="rtl">
+            <p class="text-gray-500 italic text-sm">
+              > آماده دریافت دستورات فنی شما...
+            </p>
+          </div>
 
-      <div
-        class="flex items-center text-rust pl-2 md:pl-4 font-fa border-t border-[#404040] pt-4"
-        dir="rtl"
-      >
-        <span class="whitespace-nowrap font-sans font-bold ml-2"
-          >guest@ai:~$&nbsp;</span
-        >
-        <input
-          type="text"
-          id="ai-input"
-          class="ai-input text-right font-fa"
-          placeholder="مثال: چطور شبکه رو پایدار نگه میداری؟"
-          autocomplete="off"
-        />
+          <div class="flex items-center" dir="rtl">
+            <span class="text-red-500 font-bold ml-2">➜</span>
+            <span class="text-blue-400 font-bold ml-2 font-sans"
+              >guest@ai:</span
+            >
+            <input
+              type="text"
+              id="ai-input"
+              class="bg-transparent border-none text-white font-fa w-full p-0"
+              placeholder="سوال خود را بپرسید..."
+              autocomplete="off"
+            />
+          </div>
+        </div>
       </div>
     </div>
+
+    <footer class="text-center text-dim text-xs font-sans pb-10">
+      <p>TOTAL_UPTIME: 99.99% | PROCESSOR: HUMAN_BRAIN | OS: ARCH_LINUX</p>
+    </footer>
 
     <script>
       const apiKey = "AIzaSyDZDMqF2n-QWzT0CWXKuKXzbhOGKmxhcEA";
       const systemPrompt =
-        "شما همزاد دیجیتال (Digital Twin) و دستیار هوش مصنوعی Mrj هستید. او یک متخصص حرفه‌ای شبکه، سرورهای لینوکسی و زیرساخت است. قانون اول: پاسخ‌های شما باید کوتاه، کوبنده، با اعتماد به نفس و با لحن خشک ترمینالی به زبان فارسی (با کلمات انگلیسی آی‌تی) باشد. قانون دوم و بسیار مهم: برای هر پاسخی که می‌دهید، حتماً و بدون استثنا باید یک مثال عملی از کارهایی که Mrj انجام داده یا می‌تواند برای رفع نیاز کارخانه انجام دهد بیاورید (مثلاً اشاره به مدیریت میکروتیک، پیاده‌سازی دیتابیس Postgres با داکر، مانیتورینگ با گرافانا، یا اتوماسیون با n8n و Go).";
+        "شما همزاد دیجیتال Mrj هستید. پاسخ‌ها بسیار کوتاه، فنی و با استایل ترمینالی باشد. در هر پاسخ حتماً یک مثال فنی از تخصص‌های Mrj (مثل Docker، MikroTik یا Go) ذکر کنید. لحن جدی و حرفه‌ای باشد.";
 
       const inputField = document.getElementById("ai-input");
       const chatLog = document.getElementById("chat-log");
@@ -228,74 +277,60 @@
           this.value = "";
           this.disabled = true;
 
+          appendMessage(`user: ${userText}`, "text-blue-400");
+          const loadingId = "load-" + Date.now();
           appendMessage(
-            `guest@ai:~$ ${userText}`,
-            "text-rust font-bold font-sans text-left",
-            "ltr",
-          );
-          const loadingId = "loading-" + Date.now();
-          appendMessage(
-            "[PROCESS] در حال پردازش معماری سیستم...",
-            "text-gray-400 animate-pulse",
+            "در حال پردازش...",
+            "text-dim animate-pulse",
             loadingId,
           );
 
-          const responseText = await callGemini(userText);
-
+          const response = await callGemini(userText);
           document.getElementById(loadingId).remove();
-          typeWriterEffect(`[Mrj-AI] ${responseText}`, "text-[#e5e5e5]");
 
+          typeWriter(`mrj_ai: ${response}`);
           this.disabled = false;
-          setTimeout(() => this.focus(), 100);
+          this.focus();
         }
       });
 
-      async function callGemini(promptText) {
+      async function callGemini(text) {
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
         try {
-          const response = await fetch(url, {
+          const res = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              contents: [{ parts: [{ text: promptText }] }],
+              contents: [{ parts: [{ text: text }] }],
               systemInstruction: { parts: [{ text: systemPrompt }] },
             }),
           });
-          const data = await response.json();
-          return (
-            data.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "[ERROR] خروجی غیرقابل تفسیر."
-          );
+          const data = await res.json();
+          return data.candidates[0].content.parts[0].text;
         } catch (e) {
-          return "[SYSTEM FAULT] خطای ارتباطی (Connection Timeout).";
+          return "خطای سیستمی: ارتباط با سرور هوش مصنوعی برقرار نشد.";
         }
       }
 
-      function appendMessage(text, colorClass, id = "", dir = "rtl") {
-        const div = document.createElement("div");
-        div.className =
-          colorClass +
-          (dir === "rtl"
-            ? " border-r-2 border-[#404040] pr-3"
-            : " border-l-2 border-[#404040] pl-3");
-        div.dir = dir;
-        if (id) div.id = id;
-        div.textContent = text;
-        chatLog.appendChild(div);
+      function appendMessage(text, className, id = "") {
+        const p = document.createElement("p");
+        p.className = className;
+        if (id) p.id = id;
+        p.textContent = "> " + text;
+        chatLog.appendChild(p);
+        chatLog.scrollTop = chatLog.scrollHeight;
       }
 
-      function typeWriterEffect(text, colorClass) {
-        const div = document.createElement("div");
-        div.className =
-          colorClass +
-          " whitespace-pre-wrap leading-relaxed border-r-2 border-gold pr-3";
-        chatLog.appendChild(div);
+      function typeWriter(text) {
+        const p = document.createElement("p");
+        p.className = "text-white border-r-2 border-amber-500 pr-2";
+        chatLog.appendChild(p);
         let i = 0;
         function type() {
           if (i < text.length) {
-            div.textContent += text.charAt(i);
+            p.textContent += text.charAt(i);
             i++;
-            setTimeout(type, 15);
+            setTimeout(type, 20);
           }
         }
         type();
