@@ -9,7 +9,6 @@
       @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Vazirmatn:wght@400;700&display=swap");
 
       :root {
-        /* AMOLED Black for maximum contrast & depth */
         --bg-color: #000000;
         --panel-bg: #0a0a0a;
         --text-main: #e5e5e5;
@@ -28,11 +27,10 @@
         -webkit-font-smoothing: antialiased;
       }
 
-      /* Persian Typography Fixes */
       .font-fa {
         font-family: "Vazirmatn", sans-serif;
         letter-spacing: normal;
-        line-height: 2.2; /* Better readability for Persian */
+        line-height: 2.2;
       }
 
       .flat-panel {
@@ -89,7 +87,7 @@
   <body
     class="p-4 md:p-10 w-full max-w-[95%] xl:max-w-[1400px] mx-auto selection:bg-[#fbbf24] selection:text-[#000000]"
   >
-    <!-- HEADER / HERO -->
+    <!-- HEADER -->
     <header class="mb-12">
       <div
         class="flex flex-col md:flex-row md:items-end justify-between mb-6 border-b border-[#262626] pb-6"
@@ -117,7 +115,7 @@
       </div>
     </header>
 
-    <!-- BIO & INTRO -->
+    <!-- BIO -->
     <section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
       <div class="flat-panel p-6 border-l-4 border-l-[#fbbf24]">
         <h3 class="text-xs text-muted uppercase tracking-widest mb-4">
@@ -152,7 +150,7 @@
       </div>
     </section>
 
-    <!-- TOOLCHAIN / TECH STACK -->
+    <!-- TECH STACK -->
     <section class="mb-12">
       <h3
         class="text-xs text-muted uppercase tracking-widest mb-4 border-b border-[#262626] pb-2"
@@ -177,7 +175,7 @@
       </div>
     </section>
 
-    <!-- EXECUTION LOG (EXPERIENCE) -->
+    <!-- EXECUTION LOG -->
     <section class="mb-12">
       <h3
         class="text-xs text-muted uppercase tracking-widest mb-4 border-b border-[#262626] pb-2"
@@ -232,7 +230,7 @@
       </div>
     </section>
 
-    <!-- AI DIGITAL TWIN MODULE -->
+    <!-- AI MODULE -->
     <section class="mb-16">
       <div class="flat-panel p-0 border-[#262626] shadow-2xl">
         <div
@@ -325,8 +323,8 @@
         }
       });
 
-      // DELETE: const WORKER_URL = "https://mrj.mohammad-reza.workers.dev";
       const WORKER_URL = "/chat";
+
       async function callGemini(promptText) {
         let retries = 3;
         let delays = [1000, 2000, 4000];
@@ -345,7 +343,7 @@
             return data.reply;
           } catch (e) {
             if (i === retries - 1)
-              return "[SYSTEM FAULT] خطای ارتباطی با سرور Edge.";
+              return "[SYSTEM FAULT] Edge server communication failed.";
             await new Promise((resolve) => setTimeout(resolve, delays[i]));
           }
         }
