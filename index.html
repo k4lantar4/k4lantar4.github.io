@@ -329,27 +329,30 @@
         }
       });
 
+      // آدرس ورکر کلادفلر خودت را اینجا قرار بده
+      const WORKER_URL = "https://k4lantar4.mohammad-reza.workers.dev";
+
       async function callGemini(promptText) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent`;
-        try {
-          const response = await fetch(url, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "X-goog-api-key": "AIzaSyDZDMqF2n-QWzT0CWXKuKXzbhOGKmxhcEA",
-            },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: promptText }] }],
-              systemInstruction: { parts: [{ text: systemPrompt }] },
-            }),
-          });
-          const data = await response.json();
-          return (
-            data.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "[ERROR] خروجی نامعتبر."
-          );
-        } catch (e) {
-          return "[SYSTEM FAULT] خطای ارتباطی.";
+        let retries = 3;
+        let delays = [1000, 2000, 4000];
+
+        for (let i = 0; i < retries; i++) {
+          try {
+            const response = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ prompt: promptText }),
+            });
+
+            if (!response.ok) throw new Error("Edge Connection Error");
+
+            const data = await response.json();
+            return data.reply;
+          } catch (e) {
+            if (i === retries - 1)
+              return "[SYSTEM FAULT] خطای ارتباطی با سرور Edge.";
+            await new Promise((resolve) => setTimeout(resolve, delays[i]));
+          }
         }
       }
 
