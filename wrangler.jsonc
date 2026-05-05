@@ -3,12 +3,8 @@
   "name": "k4lantar4",
   "compatibility_date": "2026-05-05",
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
-  "assets": {
-    "directory": "."
-  },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "pages_build_output_dir": ".",
+  "compatibility_flags": ["nodejs_compat"],
 }
