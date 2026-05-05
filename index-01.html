@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mrj | sys_admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Vazirmatn:wght@400;700&display=swap");
+
+      body {
+        font-family: "Fira Code", monospace;
+        background-color: #0c0b0a; /* Warm dark */
+        color: #d4c4a8; /* Muted Sand */
+        line-height: 1.8;
+        padding: 1rem;
+      }
+
+      .font-fa {
+        font-family: "Vazirmatn", sans-serif;
+        letter-spacing: normal;
+      }
+
+      .prompt::before {
+        content: "Mrj@arch-server:~$ ";
+        color: #b85c38; /* Rust */
+        font-weight: 600;
+      }
+
+      .text-gold {
+        color: #cda047;
+      }
+      .text-green {
+        color: #7c9f69;
+      } /* Muted Industrial Green */
+      .text-rust {
+        color: #b85c38;
+      }
+
+      .tag {
+        display: inline-block;
+        color: #7c9f69;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+      }
+      .tag::before {
+        content: "[";
+        color: #5f5a4f;
+      }
+      .tag::after {
+        content: "]";
+        color: #5f5a4f;
+      }
+
+      .ai-input {
+        background: transparent;
+        border: none;
+        color: #cda047;
+        font-family: inherit;
+        font-size: inherit;
+        outline: none;
+        width: 100%;
+      }
+      .ai-input::placeholder {
+        color: #5f5a4f;
+      }
+
+      @media (min-width: 768px) {
+        body {
+          padding: 2rem;
+        }
+      }
+    </style>
+  </head>
+  <body
+    class="max-w-3xl mx-auto mt-4 md:mt-10 selection:bg-[#b85c38] selection:text-black"
+  >
+    <div class="mb-10 text-[#7a7063] text-sm">
+      Last login: Tue May 05 08:30:11 2026 from 10.0.0.50<br />
+      Arch Linux 6.8.9-arch1-1 (tty1)
+    </div>
+
+    <!-- BIO SECTION -->
+    <div class="mb-12">
+      <p class="prompt mb-3">
+        <span class="text-gold font-bold border-r-2 border-gold pr-1"
+          >cat whoami.txt</span
+        >
+      </p>
+      <div class="pl-4 md:pl-6 border-l-2 border-[#3c3836]">
+        <h1 class="text-2xl md:text-3xl font-bold text-gold mb-4">
+          SYSTEMS & INFRASTRUCTURE ARCHITECT
+        </h1>
+
+        <p class="mb-4 text-sm md:text-base leading-relaxed">
+          Beyond the terminal, I'm someone who values deep focus and continuous
+          learning. I prefer building robust, automated systems over repeating
+          manual tasks. My workflow is rooted in the
+          <span class="text-green font-bold">KISS principle</span>—keeping
+          things simple, efficient, and highly maintainable. I thrive in
+          environments where I can take ownership of the infrastructure, solve
+          complex bottlenecks, and ensure absolute stability.
+        </p>
+
+        <p class="font-fa text-base leading-loose text-gray-300" dir="rtl">
+          <span class="text-rust font-bold">خلاصه تخصصی:</span> متخصص زیرساخت،
+          سرورهای لینوکسی و تجهیزات میکروتیک. تمرکز اصلی من روی پایداری شبکه
+          (Zero Downtime) و اتوماسیون فرایندها برای کاهش خطاهای انسانی است.
+        </p>
+      </div>
+    </div>
+
+    <!-- TECH STACK (SCANNABLE) -->
+    <div class="mb-12">
+      <p class="prompt mb-3 text-gold">ls -1 /opt/toolchain/</p>
+      <div class="pl-4 md:pl-6 border-l-2 border-[#3c3836]">
+        <p class="text-[#7a7063] text-sm mb-3"># Ready to deploy and manage:</p>
+        <div class="flex flex-wrap">
+          <span class="tag">Docker</span>
+          <span class="tag">PostgreSQL</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">MikroTik</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Grafana</span>
+          <span class="tag">n8n</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">Git</span>
+          <span class="tag">GitHub</span>
+          <span class="tag">Arch Linux</span>
+          <span class="tag">Go (Golang)</span>
+          <span class="tag">Python</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECTS -->
+    <div class="mb-16">
+      <p class="prompt mb-3 text-gold">cat /var/log/projects.log</p>
+      <div class="pl-4 md:pl-6 space-y-6 border-l-2 border-[#3c3836]">
+        <div>
+          <p class="text-rust font-bold">[OK] Network Redundancy System</p>
+          <p class="font-fa text-sm md:text-base mt-1 text-gray-400" dir="rtl">
+            راه‌اندازی و کانفیگ حرفه‌ای میکروتیک برای ترکیب چند خط اینترنت (Load
+            Balancing/Failover) جهت جلوگیری از قطعی کامل شبکه در محیط‌های صنعتی.
+          </p>
+        </div>
+        <div>
+          <p class="text-rust font-bold">[OK] Autonomous Monitoring Bots</p>
+          <p class="font-fa text-sm md:text-base mt-1 text-gray-400" dir="rtl">
+            توسعه ابزارهای مانیتورینگ با Go و ترکیب آن با n8n برای ارسال
+            هشدارهای آنی پیش از وقوع خرابی در سرورها.
+          </p>
+        </div>
+        <div>
+          <p class="text-rust font-bold">[OK] Containerized Infrastructure</p>
+          <p class="font-fa text-sm md:text-base mt-1 text-gray-400" dir="rtl">
+            معماری و انتقال دیتابیس‌ها (مانند Postgres) به محیط Docker جهت
+            افزایش امنیت، استقرار سریع و مدیریت متمرکز بک‌آپ‌ها.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI MODULE -->
+    <div
+      class="mb-12 border border-[#3c3836] p-4 md:p-6 bg-[#0a0908] rounded-sm shadow-xl"
+    >
+      <div
+        class="flex items-center justify-between mb-4 border-b border-[#3c3836] pb-2"
+      >
+        <p class="text-gold font-bold">
+          ./mrj_twin.sh <span class="text-green ml-1 animate-pulse">●</span>
+        </p>
+        <p class="text-xs text-[#7a7063]">Powered by Gemini LLM</p>
+      </div>
+
+      <div
+        class="pl-2 md:pl-4 mb-6 text-[#7a7063] text-sm md:text-base font-fa space-y-1"
+        dir="rtl"
+      >
+        <p>
+          > [SYSTEM]
+          <span class="text-green"
+            >ماژول همزاد دیجیتال (AI) با موفقیت بارگذاری شد.</span
+          >
+        </p>
+        <p>
+          > [SYSTEM] می‌توانید در مورد تخصص‌ها، نحوه کار با ابزارها یا حل مشکلات
+          از من بپرسید...
+        </p>
+      </div>
+
+      <div
+        id="chat-log"
+        class="mb-4 space-y-4 pl-2 md:pl-4 font-fa text-sm md:text-base"
+        dir="rtl"
+      ></div>
+
+      <div
+        class="flex items-center text-rust pl-2 md:pl-4 font-fa border-t border-[#3c3836] pt-4"
+        dir="rtl"
+      >
+        <span class="whitespace-nowrap font-sans font-bold ml-2"
+          >guest@ai:~$&nbsp;</span
+        >
+        <input
+          type="text"
+          id="ai-input"
+          class="ai-input text-right font-fa"
+          placeholder="مثال: چطور شبکه رو پایدار نگه میداری؟"
+          autocomplete="off"
+        />
+      </div>
+    </div>
+
+    <script>
+      const apiKey = "";
+      // سیستم رول جدید با اجبار به ارائه مثال عملی
+      const systemPrompt =
+        "شما همزاد دیجیتال (Digital Twin) و دستیار هوش مصنوعی Mrj هستید. او یک متخصص حرفه‌ای شبکه، سرورهای لینوکسی و زیرساخت است. قانون اول: پاسخ‌های شما باید کوتاه، کوبنده، با اعتماد به نفس و با لحن خشک ترمینالی به زبان فارسی (با کلمات انگلیسی آی‌تی) باشد. قانون دوم و بسیار مهم: برای هر پاسخی که می‌دهید، حتماً و بدون استثنا باید یک مثال عملی از کارهایی که Mrj انجام داده یا می‌تواند برای رفع نیاز کارخانه انجام دهد بیاورید (مثلاً اشاره به مدیریت میکروتیک، پیاده‌سازی دیتابیس Postgres با داکر، مانیتورینگ با گرافانا، یا اتوماسیون با n8n و Go).";
+
+      const inputField = document.getElementById("ai-input");
+      const chatLog = document.getElementById("chat-log");
+
+      inputField.addEventListener("keypress", async function (e) {
+        if (e.key === "Enter" && this.value.trim() !== "") {
+          const userText = this.value.trim();
+          this.value = "";
+          this.disabled = true;
+
+          appendMessage(
+            `guest@ai:~$ ${userText}`,
+            "text-rust font-bold font-sans text-left",
+            "ltr",
+          );
+          const loadingId = "loading-" + Date.now();
+          appendMessage(
+            "[PROCESS] در حال پردازش معماری سیستم...",
+            "text-[#7a7063] animate-pulse",
+            loadingId,
+          );
+
+          const responseText = await callGemini(userText);
+
+          document.getElementById(loadingId).remove();
+          typeWriterEffect(`[Mrj-AI] ${responseText}`, "text-[#d4c4a8]");
+
+          this.disabled = false;
+          setTimeout(() => this.focus(), 100);
+        }
+      });
+
+      async function callGemini(promptText) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        try {
+          const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: promptText }] }],
+              systemInstruction: { parts: [{ text: systemPrompt }] },
+            }),
+          });
+          const data = await response.json();
+          return (
+            data.candidates?.[0]?.content?.parts?.[0]?.text ||
+            "[ERROR] خروجی غیرقابل تفسیر."
+          );
+        } catch (e) {
+          return "[SYSTEM FAULT] خطای ارتباطی (Connection Timeout).";
+        }
+      }
+
+      function appendMessage(text, colorClass, id = "", dir = "rtl") {
+        const div = document.createElement("div");
+        div.className =
+          colorClass +
+          (dir === "rtl"
+            ? " border-r-2 border-[#3c3836] pr-3"
+            : " border-l-2 border-[#3c3836] pl-3");
+        div.dir = dir;
+        if (id) div.id = id;
+        div.textContent = text;
+        chatLog.appendChild(div);
+      }
+
+      function typeWriterEffect(text, colorClass) {
+        const div = document.createElement("div");
+        div.className =
+          colorClass +
+          " whitespace-pre-wrap leading-relaxed border-r-2 border-gold pr-3";
+        chatLog.appendChild(div);
+        let i = 0;
+        function type() {
+          if (i < text.length) {
+            div.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, 15);
+          }
+        }
+        type();
+      }
+    </script>
+  </body>
+</html>
