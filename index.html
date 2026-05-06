@@ -289,105 +289,200 @@
       <p class="mt-2 text-[#555555]">© 2026 Systems & Infrastructure</p>
     </footer>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Vazirmatn:wght@400;700&display=swap');
+        
+        :root {
+            --term-bg: #0a0a0a;
+            --term-green: #4ade80;
+            --term-amber: #fbbf24;
+            --term-text: #e5e5e5;
+            --term-dim: #666;
+        }
+
+        body { 
+            font-family: 'Vazirmatn', sans-serif; 
+            background-color: #000; 
+            color: var(--term-text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .font-mono { font-family: 'Fira Code', monospace; }
+
+        .message-row { margin-bottom: 1.5rem; display: flex; flex-direction: column; }
+        .user-line { color: var(--term-amber); font-family: 'Fira Code', monospace; margin-bottom: 0.25rem; }
+        .ai-line { 
+            background: rgba(255,255,255,0.03);
+            border-right: 2px solid var(--term-green);
+            padding: 10px 15px;
+            border-radius: 0 4px 4px 0;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .suggestion-chip {
+            background: transparent;
+            border: 1px solid var(--term-dim);
+            color: var(--term-dim);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 4px;
+        }
+
+        .suggestion-chip:hover {
+            border-color: var(--term-green);
+            color: var(--term-green);
+            background: rgba(74, 222, 128, 0.05);
+        }
+
+        .input-area {
+            background: #0f0f0f;
+            border-top: 1px solid #222;
+            padding: 1rem;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            outline: none;
+            width: 100%;
+            color: var(--term-amber);
+            font-size: 1rem;
+        }
+
+        /* رفع به هم ریختگی اسکرول */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Terminal Output -->
+    <main class="terminal-container" id="terminal">
+        <div class="mb-6">
+            <div class="text-green-500 font-mono text-xs mb-2 uppercase tracking-widest">Digital Twin v2.0 - Active Node</div>
+            <div class="text-gray-500 text-sm">
+                سیستم آماده است. من محمدرضا هستم؛ متخصص زیرساخت و اتوماسیون. چطور می‌تونم کمکتون کنم؟
+            </div>
+        </div>
+        <div id="chat-log"></div>
+    </main>
+
+    <!-- Suggestion Chips -->
+    <div id="suggestions" class="px-4 py-2 flex flex-wrap bg-black">
+        <button class="suggestion-chip" onclick="ask('در مورد تجربه کار با داکر بگو')">تجربه داکر</button>
+        <button class="suggestion-chip" onclick="ask('چطور مانیتورینگ رو پیاده‌سازی می‌کنی؟')">متدولوژی مانیتورینگ</button>
+        <button class="suggestion-chip" onclick="ask('رزومه فنی تو شامل چه مواردیه؟')">خلاصه رزومه</button>
+    </div>
+
+    <!-- Input Footer -->
+    <footer class="input-area">
+        <div class="flex items-center gap-2" dir="ltr">
+            <span class="text-amber-500 font-mono shrink-0">guest@mrj:~$</span>
+            <input type="text" id="user-input" class="font-fa text-right" dir="rtl" placeholder="سوال خود را بنویسید..." autocomplete="off">
+        </div>
+    </footer>
+
     <script>
-      const inputField = document.getElementById("ai-input");
-      const chatLog = document.getElementById("chat-log");
+        const input = document.getElementById('user-input');
+        const chatLog = document.getElementById('chat-log');
 
-      inputField.addEventListener("keypress", async function (e) {
-        if (e.key === "Enter" && this.value.trim() !== "") {
-          const userText = this.value.trim();
-          this.value = "";
-          this.disabled = true;
+        async function handleAction() {
+            const val = input.value.trim();
+            if (!val) return;
 
-          appendMessage(
-            `guest@mrj-ai:~$ ${userText}`,
-            "text-rust font-bold font-sans text-left mb-2",
-            "",
-            "ltr",
-          );
+            // نمایش پیام کاربر
+            const userRow = document.createElement('div');
+            userRow.className = 'message-row';
+            userRow.innerHTML = `<div class="user-line" dir="ltr">guest@mrj:~$ ${val}</div>`;
+            chatLog.appendChild(userRow);
+            
+            input.value = '';
+            input.disabled = true;
 
-          const loadingId = "loading-" + Date.now();
-          appendMessage(
-            "[PROCESS] در حال فراخوانی دانش فنی...",
-            "text-gray-500 animate-pulse font-fa",
-            loadingId,
-          );
+            // نمایش حالت لودینگ
+            const loading = document.createElement('div');
+            loading.className = 'text-gray-600 text-xs animate-pulse mb-4';
+            loading.innerText = '... در حال پردازش درخواست فنی';
+            chatLog.appendChild(loading);
 
-          const responseText = await callGemini(userText);
-
-          document.getElementById(loadingId).remove();
-          typeWriterEffect(`[Mrj-AI] ${responseText}`, "text-gray-200 font-fa");
-
-          this.disabled = false;
-          setTimeout(() => this.focus(), 100);
+            // فراخوانی بک‌ساید
+            google.script.run
+                .withSuccessHandler((res) => {
+                    loading.remove();
+                    processAIResponse(res.reply);
+                    input.disabled = false;
+                    input.focus();
+                })
+                .withFailureHandler((err) => {
+                    loading.innerText = '[ERROR] مشکل در برقراری ارتباط با سرور.';
+                    input.disabled = false;
+                })
+                .callGemini(val);
         }
-      });
 
-      const WORKER_URL = "/chat";
+        function processAIResponse(raw) {
+            const parts = raw.split('[SUGGESTIONS]:');
+            const mainContent = parts[0].trim();
+            const suggestions = parts[1] ? parts[1].split('|').map(s => s.trim()) : [];
 
-      // CORE LOGIC REFACTOR: Object Parsing & Error Handling
-      async function callGemini(promptText) {
-        return new Promise((resolve) => {
-          if (typeof google === "undefined" || !google.script) {
-            resolve("[FATAL ERROR] Google Script runtime not detected.");
-            return;
-          }
+            // افکت تایپ
+            const aiRow = document.createElement('div');
+            aiRow.className = 'message-row';
+            const aiContent = document.createElement('div');
+            aiContent.className = 'ai-line';
+            aiRow.appendChild(aiContent);
+            chatLog.appendChild(aiRow);
 
-          google.script.run
-            .withSuccessHandler(function (response) {
-              if (typeof response === "object") {
-                // Return payload or dump the exact error object to UI
-                resolve(
-                  response.reply ||
-                    response.details ||
-                    response.error ||
-                    JSON.stringify(response),
-                );
-              } else {
-                resolve(response);
-              }
-            })
-            .withFailureHandler(function (error) {
-              resolve(
-                "[SYSTEM FAULT] Proxy Runtime Error: " +
-                  (error.message || error),
-              );
-            })
-            .callGemini(promptText);
-        });
-      }
-
-      function appendMessage(text, colorClass, id = "", dir = "rtl") {
-        const div = document.createElement("div");
-        div.className =
-          colorClass +
-          (dir === "rtl"
-            ? " border-r-2 border-[#262626] pr-3"
-            : " border-l-2 border-[#262626] pl-3");
-        div.dir = dir;
-        if (id) div.id = id;
-        div.textContent = text;
-        chatLog.appendChild(div);
-        chatLog.scrollTop = chatLog.scrollHeight;
-      }
-
-      function typeWriterEffect(text, colorClass) {
-        const div = document.createElement("div");
-        div.className =
-          colorClass + " border-r-2 border-[#a6e22e] pr-3 whitespace-pre-wrap";
-        chatLog.appendChild(div);
-
-        let i = 0;
-        function type() {
-          if (i < text.length) {
-            div.textContent += text.charAt(i);
-            i++;
-            chatLog.scrollTop = chatLog.scrollHeight;
-            setTimeout(type, 15);
-          }
+            let i = 0;
+            function type() {
+                if (i < mainContent.length) {
+                    aiContent.innerHTML += mainContent.charAt(i);
+                    i++;
+                    document.getElementById('terminal').scrollTop = document.getElementById('terminal').scrollHeight;
+                    setTimeout(type, 5);
+                } else {
+                    updateSuggestions(suggestions);
+                }
+            }
+            type();
         }
-        type();
-      }
+
+        function updateSuggestions(list) {
+            const container = document.getElementById('suggestions');
+            container.innerHTML = '';
+            if (list.length === 0) list = ["ارتباط مستقیم با من", "تخصص در لینوکس", "پروژه‌های اخیر"];
+            
+            list.forEach(s => {
+                const btn = document.createElement('button');
+                btn.className = 'suggestion-chip';
+                btn.innerText = s;
+                btn.onclick = () => ask(s);
+                container.appendChild(btn);
+            });
+        }
+
+        function ask(q) {
+            input.value = q;
+            handleAction();
+        }
+
+        input.addEventListener('keypress', (e) => { if(e.key === 'Enter') handleAction(); });
     </script>
   </body>
 </html>
