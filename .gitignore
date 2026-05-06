@@ -8,3 +8,4 @@
 !.dev.vars.example
 .env*
 !.env.example
+ir-central1-configkube.config
