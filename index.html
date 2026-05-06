@@ -325,28 +325,36 @@
 
       const WORKER_URL = "/chat";
 
+      // CORE LOGIC REFACTOR: Object Parsing & Error Handling
       async function callGemini(promptText) {
-        let retries = 3;
-        let delays = [1000, 2000, 4000];
-
-        for (let i = 0; i < retries; i++) {
-          try {
-            const response = await fetch(WORKER_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ prompt: promptText }),
-            });
-
-            if (!response.ok) throw new Error("Edge Connection Error");
-
-            const data = await response.json();
-            return data.reply;
-          } catch (e) {
-            if (i === retries - 1)
-              return "[SYSTEM FAULT] Edge server communication failed.";
-            await new Promise((resolve) => setTimeout(resolve, delays[i]));
+        return new Promise((resolve) => {
+          if (typeof google === "undefined" || !google.script) {
+            resolve("[FATAL ERROR] Google Script runtime not detected.");
+            return;
           }
-        }
+
+          google.script.run
+            .withSuccessHandler(function (response) {
+              if (typeof response === "object") {
+                // Return payload or dump the exact error object to UI
+                resolve(
+                  response.reply ||
+                    response.details ||
+                    response.error ||
+                    JSON.stringify(response),
+                );
+              } else {
+                resolve(response);
+              }
+            })
+            .withFailureHandler(function (error) {
+              resolve(
+                "[SYSTEM FAULT] Proxy Runtime Error: " +
+                  (error.message || error),
+              );
+            })
+            .callGemini(promptText);
+        });
       }
 
       function appendMessage(text, colorClass, id = "", dir = "rtl") {
