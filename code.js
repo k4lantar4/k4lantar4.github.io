@@ -4,7 +4,6 @@
 
 function doGet(e) {
   try {
-    // خواندن پارامتر از URL
     const userPrompt = e.parameter.prompt;
 
     if (!userPrompt) {
@@ -15,15 +14,16 @@ function doGet(e) {
 
     const result = processGemini(userPrompt);
 
-    // بازگرداندن پاسخ با هدرهای صحیح
     const output = ContentService.createTextOutput(JSON.stringify(result));
     output.setMimeType(ContentService.MimeType.JSON);
+
     return output;
   } catch (error) {
     const errorOutput = ContentService.createTextOutput(
       JSON.stringify({ error: error.toString() }),
     );
     errorOutput.setMimeType(ContentService.MimeType.JSON);
+
     return errorOutput;
   }
 }
@@ -31,7 +31,10 @@ function doGet(e) {
 function processGemini(userPrompt) {
   const apiKey =
     PropertiesService.getScriptProperties().getProperty("GEMINI_API_KEY");
-  if (!apiKey) throw new Error("API Key Missing. Check Script Properties.");
+
+  if (!apiKey) {
+    throw new Error("API Key Missing. Check Script Properties.");
+  }
 
   const myStack = `
   - Docker: من تمام اپلیکیشن‌ها و دیتابیس‌ها را برای پایداری ۱۰۰٪ و ایزولاسیون کامل کانتینرایز می‌کنم.
@@ -61,27 +64,17 @@ function processGemini(userPrompt) {
     systemInstruction: { parts: [{ text: systemPrompt }] },
   };
 
-  const fetchModel = (modelId) => {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${apiKey}`;
-    return UrlFetchApp.fetch(url, {
-      method: "post",
-      contentType: "application/json",
-      payload: JSON.stringify(payload),
-      muteHttpExceptions: true,
-    });
-  };
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
 
-  // Node 1: Stable
-  let response = fetchModel("gemini-flash-latest");
+  const response = UrlFetchApp.fetch(url, {
+    method: "post",
+    contentType: "application/json",
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+  });
 
-  // Node 2: Failover
   if (response.getResponseCode() !== 200) {
-    response = fetchModel("gemini-1.5-flash");
-  }
-
-  // Circuit Breaker
-  if (response.getResponseCode() !== 200) {
-    throw new Error(`All upstream models failed: ${response.getContentText()}`);
+    throw new Error(`Upstream API failed: ${response.getContentText()}`);
   }
 
   const data = JSON.parse(response.getContentText());

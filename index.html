@@ -18,7 +18,7 @@
         --border-color: #262626;
         --border-light: #1a1a1a;
 
-        /* Fallback to local system fonts to bypass GFW */
+        /* System fonts fallback */
         --font-mono:
           ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
           "Liberation Mono", "Courier New", monospace;
@@ -358,7 +358,7 @@
         }
       }
 
-      /* Terminal */
+      /* Terminal UI Improvements */
       .terminal {
         padding: 0;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -366,14 +366,19 @@
       }
       .term-header {
         background: var(--bg-color);
-        padding: 0.75rem 1rem;
+        padding: 0.5rem 0.75rem; /* Compact for mobile */
         border-bottom: 1px solid var(--border-color);
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
+      @media (min-width: 768px) {
+        .term-header {
+          padding: 0.75rem 1rem;
+        }
+      }
       .term-title {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         color: var(--text-muted);
         text-transform: uppercase;
         font-weight: 700;
@@ -383,8 +388,8 @@
         gap: 0.5rem;
       }
       .dot {
-        width: 0.5rem;
-        height: 0.5rem;
+        width: 0.4rem;
+        height: 0.4rem;
         border-radius: 50%;
         background: var(--accent-green);
       }
@@ -409,17 +414,23 @@
         }
       }
       .term-ready {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
         color: #000;
         font-weight: 700;
         background: var(--accent-green);
-        padding: 0.125rem 0.5rem;
-        border-radius: 2px;
+        padding: 0.15rem 0.4rem;
+        border-radius: 4px;
+      }
+      @media (min-width: 768px) {
+        .term-ready {
+          font-size: 0.75rem;
+          padding: 0.125rem 0.5rem;
+        }
       }
 
       .term-body {
         background: var(--surface-bg);
-        padding: 1rem;
+        padding: 1rem 0.75rem;
         height: 380px;
         display: flex;
         flex-direction: column;
@@ -436,51 +447,63 @@
         padding-right: 0.5rem;
         display: flex;
         flex-direction: column;
-        font-size: 1rem;
+        font-size: 0.9rem;
+      }
+      @media (min-width: 768px) {
+        .chat-log {
+          font-size: 1rem;
+        }
       }
       .chat-log::-webkit-scrollbar {
-        width: 6px;
+        width: 4px;
       }
       .chat-log::-webkit-scrollbar-track {
         background: transparent;
       }
       .chat-log::-webkit-scrollbar-thumb {
-        background: #262626;
+        background: #333;
         border-radius: 4px;
       }
       .chat-log::-webkit-scrollbar-thumb:hover {
-        background: #444;
+        background: #555;
       }
 
       .cmd-line {
         text-align: right;
         margin-bottom: 0.25rem;
         font-weight: 700;
-        color: #5eead4;
+        color: #cbd5e1; /* Softer text color */
         margin-top: 0.5rem;
       }
       .cmd-prompt {
         font-family: var(--font-mono);
-        color: #14b8a6;
+        color: #94a3b8; /* Muted prompt color */
         margin-left: 0.5rem;
+        font-size: 0.85rem;
       }
       .ai-reply {
-        color: #fff;
-        margin-right: 2rem;
+        color: #e2e8f0;
+        margin-right: 0.5rem; /* Mobile constraint */
         margin-bottom: 1rem;
         border-right: 2px solid rgba(166, 226, 46, 0.5);
         padding-right: 0.75rem;
         white-space: pre-wrap;
         text-align: right;
       }
+      @media (min-width: 768px) {
+        .ai-reply {
+          margin-right: 2rem;
+        }
+      }
       .ai-loading {
         color: #6b7280;
-        margin-right: 2rem;
+        margin-right: 0.5rem;
         margin-bottom: 1rem;
         animation: pulse 2s infinite;
         text-align: right;
       }
 
+      /* Horizontal Scrollable Suggestions */
       .suggestions {
         display: flex;
         flex-direction: column;
@@ -502,20 +525,28 @@
       }
       .sug-list {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap; /* Prevent wrapping on mobile */
+        overflow-x: auto; /* Enable horizontal scroll */
+        -webkit-overflow-scrolling: touch;
         gap: 0.5rem;
-        margin-right: 2rem;
+        padding-bottom: 0.5rem; /* Prevent clipping */
+        scrollbar-width: none; /* Firefox */
+      }
+      .sug-list::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
       }
       .suggestion-btn {
         background: transparent;
         border: 1px solid #334155;
         color: #94a3b8;
-        padding: 0.25rem 0.75rem;
-        border-radius: 4px;
-        font-size: 0.85rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.8rem;
         cursor: pointer;
         transition: all 0.2s;
         font-family: inherit;
+        white-space: nowrap; /* Keep text strictly in one line */
+        flex-shrink: 0; /* Prevent squishing */
       }
       .suggestion-btn:hover {
         border-color: var(--accent-green);
@@ -523,25 +554,35 @@
         background: rgba(166, 226, 46, 0.05);
       }
 
+      /* Soft Input Area */
       .input-area {
         display: flex;
         align-items: center;
         font-size: 1rem;
         border-top: 1px solid var(--border-color);
-        padding-top: 1rem;
-        margin-top: 0.75rem;
+        padding-top: 0.75rem;
+        margin-top: 0.25rem;
+        gap: 0.5rem;
       }
       .ai-input {
-        background: transparent;
-        border: none;
-        color: #5eead4;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid #334155;
+        border-radius: 6px;
+        color: #e2e8f0;
         width: 100%;
         outline: none;
         font-family: inherit;
         text-align: right;
+        padding: 0.5rem 0.75rem;
+        transition: all 0.2s ease;
+      }
+      .ai-input:focus {
+        border-color: #4b5563;
+        background: rgba(255, 255, 255, 0.05);
       }
       .ai-input::placeholder {
-        color: #334155;
+        color: #64748b;
+        font-size: 0.85rem;
       }
 
       /* Footer */
@@ -562,7 +603,6 @@
         color: #555555;
       }
 
-      /* Selection override */
       ::selection {
         background: var(--accent-gold);
         color: #000;
@@ -761,6 +801,7 @@
       let seconds = 0;
       let cmdCount = 1;
       const uptimeEl = document.getElementById("uptime-display");
+
       setInterval(() => {
         seconds++;
         const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
@@ -789,11 +830,13 @@
         "با n8n دقیقا چه تسک‌هایی رو اتوماتیک کردی؟",
       ];
 
+      // Initialize defaults
       document.addEventListener("DOMContentLoaded", () => {
         const shuffled = initialQuestions.sort(() => 0.5 - Math.random());
         renderSuggestions(shuffled.slice(0, 3));
       });
 
+      // Handle Enter Key Execution
       inputField.addEventListener("keypress", async function (e) {
         if (e.key === "Enter" && this.value.trim() !== "") {
           const userText = this.value.trim();
@@ -804,16 +847,18 @@
           cmdCount++;
           promptLabel.textContent = `In [${cmdCount}]:`;
 
+          // Hide suggestions during execution
           suggestionsArea.classList.add("hidden");
           suggestionsList.innerHTML = "";
 
-          // Print User Query
+          // Render User Query
           const userDiv = document.createElement("div");
           userDiv.className = "cmd-line font-fa";
           userDiv.innerHTML = `<span class="cmd-prompt">In [${currentCmd}]:</span> ${userText}`;
           chatLog.appendChild(userDiv);
           chatLog.scrollTop = chatLog.scrollHeight;
 
+          // Render Processing State
           const loadingId = "loading-" + Date.now();
           const loadingDiv = document.createElement("div");
           loadingDiv.id = loadingId;
@@ -822,9 +867,11 @@
           chatLog.appendChild(loadingDiv);
           chatLog.scrollTop = chatLog.scrollHeight;
 
+          // Fetch API
           const responseText = await callGemini(userText);
           document.getElementById(loadingId).remove();
 
+          // Parse Suggestions from Output
           let mainText = responseText;
           let suggestions = [];
           if (responseText.includes("[SUGGESTIONS]:")) {
@@ -838,6 +885,7 @@
               : [];
           }
 
+          // Render Output
           typeWriterEffect(mainText, currentCmd, () => {
             if (suggestions.length > 0) renderSuggestions(suggestions);
           });
@@ -847,6 +895,7 @@
         }
       });
 
+      // Generate Suggestion Chips
       function renderSuggestions(list) {
         suggestionsList.innerHTML = "";
         list.forEach((q) => {
@@ -873,7 +922,7 @@
         }
 
         try {
-          // الصاق ایمن دیتا به URL
+          // Safely append query to URL
           const targetUrl =
             API_ENDPOINT + "?prompt=" + encodeURIComponent(promptText);
 
@@ -886,12 +935,13 @@
 
           if (!response.ok) throw new Error(`HTTP Error ${response.status}`);
           const data = await response.json();
-          return data.reply || data.error || "[ERROR] خروجی نامعتبر از سرور.";
+          return data.reply || data.error || "[ERROR] Invalid server output.";
         } catch (error) {
           return "[SYSTEM FAULT] Network/CORS Error: " + error.message;
         }
       }
 
+      // Typewriter Output Effect
       function typeWriterEffect(text, cmdId, onComplete) {
         const div = document.createElement("div");
         div.className = "ai-reply font-fa";
